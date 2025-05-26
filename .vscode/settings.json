@@ -1,0 +1,4 @@
+{
+  "task.allowAutomaticTasks": "on",
+  "typescript.preferences.preferTypeOnlyAutoImports": true
+}

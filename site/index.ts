@@ -7,10 +7,18 @@ canvas.width = document.body.clientWidth
 canvas.height = document.body.clientHeight
 
 const ctx = canvas.getContext('2d')!
-
+const r = 15
 const engine = Matter.Engine.create()
 
 engine.gravity.y = 0.15
+
+
+
+const circle = Matter.Bodies.circle(200, 200, 15)
+Matter.Composite.add(engine.world, [circle])
+engine.gravity.y = 0
+
+
 
 run()
 function run() {
@@ -28,11 +36,16 @@ function run() {
       continue
     }
 
-    const grad = ctx.createRadialGradient(pos.x, pos.y, 20, pos.x + .1, pos.y + .1, 0)
+    const grad = ctx.createRadialGradient(pos.x, pos.y, 20, pos.x + .01, pos.y + .01, 0)
 
     grad.addColorStop(0, '#19ff')
-    grad.addColorStop(.1, '#19f5')
-    grad.addColorStop(.5, '#19f0')
+
+    grad.addColorStop(.02, '#19ff')
+    grad.addColorStop(.10, '#19f7')
+    grad.addColorStop(.30, '#19f3')
+    grad.addColorStop(.50, '#19f0')
+    grad.addColorStop(.80, '#0000')
+
     grad.addColorStop(1, '#0000')
 
     ctx.fillStyle = grad
@@ -46,8 +59,6 @@ const aborts = new Map<number, AbortController>()
 
 canvas.onpointerdown = e => {
   canvas.setPointerCapture(e.pointerId)
-
-  const r = 15
 
   const circle = Matter.Bodies.circle(e.clientX, e.clientY, r)
   Matter.Composite.add(engine.world, [circle])

@@ -4,9 +4,12 @@ import { stripTypeScriptTypes } from "module"
 const site = new FileTree('site', import.meta.dirname)
 
 if (process.argv[2] === 'dev') {
-  const server = new DevServer(8181)
+  const server = new DevServer(8181, { hmrPath: '/reload' })
   server.files = run()
-  site.watch().on('filesUpdated', () => server.files = run())
+  site.watch().on('filesUpdated', () => {
+    server.files = run()
+    server.reload()
+  })
 }
 else {
   generateFiles(run())

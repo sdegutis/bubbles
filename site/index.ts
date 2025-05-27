@@ -10,7 +10,7 @@ setTimeout(() => {
 
 const engine = Matter.Engine.create()
 
-engine.gravity.y = 0
+engine.gravity.y = 0.2
 
 const render = Matter.Render.create({
   canvas,
@@ -36,10 +36,19 @@ ontick(d => {
 }, 60)
 
 canvas.onmousedown = e => {
-  const circle = Matter.Bodies.circle(e.clientX, e.clientY, 40)
+  const circle = Matter.Bodies.circle(e.clientX, e.clientY, 20)
   bubbles.push(circle)
   Matter.Composite.add(engine.world, [circle])
+  canvas.onmousemove = e => {
+    const circle = Matter.Bodies.circle(e.clientX, e.clientY, 20)
+    bubbles.push(circle)
+    Matter.Composite.add(engine.world, [circle])
+  }
+  canvas.onmouseup = () => {
+    canvas.onmousemove = null
+  }
 }
+
 
 function ontick(fn: (d: number) => void, fps = 30) {
   let done: number

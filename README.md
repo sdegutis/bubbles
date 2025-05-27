@@ -6,7 +6,7 @@
 
 https://bubbles.90s.dev/ssaver.html
 
-It has a very short delay (`1s`)
+* The demo has a very short delay (`1s`)
 
 ## Usage
 

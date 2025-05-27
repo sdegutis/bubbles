@@ -25,6 +25,8 @@ Or with parameters:
 * `delay (default=60)`: how many seconds page must be idle
 * `speed (default=2)`: how fast the bubbles do things
 * `interval (default=100)`: how many milliseconds between new bubbles
+* `minsize (default=10)`: smallest bubble radius
+* `maxsize (default=40)`: biggest bubble radius
 
 ## License
 

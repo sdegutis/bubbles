@@ -1,7 +1,5 @@
 import { addCircle, canvas, engine, Matter } from "./lib.js"
 
-new EventSource('/reload').onmessage = () => location.reload()
-
 engine.gravity.y = 0.15
 window.addEventListener('deviceorientation', e => {
   engine.gravity.y = (e.beta ?? 0.15 * 140) / 140

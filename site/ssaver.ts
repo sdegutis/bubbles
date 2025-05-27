@@ -6,8 +6,8 @@ const params = new URL(import.meta.url).searchParams
 const delay = +(params.get('delay') ?? '60')
 const speed = +(params.get('speed') ?? '2')
 const interval = +(params.get('interval') ?? '100')
-
-new EventSource('/reload').onmessage = () => location.reload()
+const min = +(params.get('minsize') ?? '10')
+const max = +(params.get('maxsize') ?? '40')
 
 let timeout: ReturnType<typeof setInterval>
 
@@ -35,7 +35,7 @@ function addBubbles() {
   const mx = Math.random() * +speed
   const my = Math.random() * -speed
 
-  const size = Math.random() * 30 + 10
+  const size = Math.random() * (max - min) + min
 
   const circle = addCircle(x, y, size)
   circle.frictionAir = 0

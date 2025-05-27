@@ -71,6 +71,7 @@ function addCircle(x: number, y: number, mx: number, my: number) {
   const factor = 10
   colors.set(circle, (Math.random() * 360))
   if (mx || my) Matter.Body.setVelocity(circle, { x: mx / factor, y: my / factor })
+  navigator.vibrate(1)
 }
 
 canvas.onpointerdown = e => {

@@ -27,7 +27,18 @@ ontick(d => {
       continue
     }
 
-    ctx.fillStyle = '#9009'
+    const grad = ctx.createRadialGradient(pos.x, pos.y, 20, pos.x, pos.y, 20)
+
+    grad.addColorStop(0, 'red')
+    grad.addColorStop(0.9, 'green')
+    grad.addColorStop(1, 'blue')
+
+    ctx.fillStyle = grad
+    // ctx.fillRect(pos.x - 10, pos.y - 10, 20, 20)
+
+
+
+    // ctx.fillStyle = '#9009'
     ctx.beginPath()
     ctx.arc(pos.x, pos.y, 20, 0, Math.PI * 2)
     ctx.fill()

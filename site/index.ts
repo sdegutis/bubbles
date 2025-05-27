@@ -49,14 +49,16 @@ const aborts = new Map<number, AbortController>()
 canvas.onpointerdown = e => {
   canvas.setPointerCapture(e.pointerId)
 
-  const circle = Matter.Bodies.circle(e.clientX, e.clientY, 20)
+  const r = 15
+
+  const circle = Matter.Bodies.circle(e.clientX, e.clientY, r)
   Matter.Composite.add(engine.world, [circle])
 
   const abort = new AbortController()
   aborts.set(e.pointerId, abort)
 
   canvas.addEventListener('pointermove', (e) => {
-    const circle = Matter.Bodies.circle(e.clientX, e.clientY, 20)
+    const circle = Matter.Bodies.circle(e.clientX, e.clientY, r)
     Matter.Composite.add(engine.world, [circle])
     const factor = 10
     Matter.Body.setVelocity(circle, { x: e.movementX / factor, y: e.movementY / factor })

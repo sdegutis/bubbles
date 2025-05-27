@@ -11,9 +11,14 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "immaculata": "^2.4.0"
+    "@babel/core": "^7.27.1",
+    "@babel/plugin-transform-react-jsx": "^7.27.1",
+    "@babel/plugin-transform-typescript": "^7.27.1",
+    "immaculata": "^2.4.0",
+    "matter-js": "^0.20.0"
   },
   "devDependencies": {
+    "@types/matter-js": "^0.19.8",
     "@types/node": "^22.15.21",
     "typescript": "^5.8.3"
   }

@@ -34,20 +34,23 @@ ontick(d => {
   }
 }, 60)
 
-canvas.onmousedown = e => {
+canvas.onpointerdown = e => {
+  canvas.setPointerCapture(e.pointerId)
+
   const circle = Matter.Bodies.circle(e.clientX, e.clientY, 20)
   Matter.Composite.add(engine.world, [circle])
-  canvas.onmousemove = e => {
+
+  canvas.onpointermove = e => {
     const circle = Matter.Bodies.circle(e.clientX, e.clientY, 20)
     Matter.Composite.add(engine.world, [circle])
     const factor = 10
     Matter.Body.setVelocity(circle, { x: e.movementX / factor, y: e.movementY / factor })
-  }
-  canvas.onmouseup = () => {
-    canvas.onmousemove = null
+
+    canvas.onpointerup = e => {
+      canvas.onpointermove = null
+    }
   }
 }
-
 
 function ontick(fn: (d: number) => void, fps = 30) {
   let done: number

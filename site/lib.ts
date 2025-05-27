@@ -98,11 +98,9 @@ function run() {
   }
 }
 
-export function addCircle(x: number, y: number, mx: number, my: number) {
+export function addCircle(x: number, y: number, mx: number, my: number, size: number) {
   const ox = Math.random() * 2 - 1
   const oy = Math.random() * 2 - 1
-
-  const size = Math.random() * 30 + 5
 
   const circle = Matter.Bodies.circle(x + ox, y + oy, size * (18 / 20))
   Matter.Composite.add(engine.world, circle)
@@ -111,6 +109,4 @@ export function addCircle(x: number, y: number, mx: number, my: number) {
 
   if (mx || my)
     Matter.Body.setVelocity(circle, { x: mx / 10, y: my / 10 })
-
-  navigator.vibrate(1)
 }

@@ -74,7 +74,7 @@ function run() {
     ctx.fillStyle = grad2
     ctx.beginPath()
     ctx.ellipse(
-      pos.x, pos.y - 7,
+      pos.x, pos.y - (size * 7 / 20),
       size * 16 / 20, size * 12 / 20,
       0,
       0, Math.PI * 2)

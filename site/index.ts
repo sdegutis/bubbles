@@ -6,19 +6,34 @@ const canvas = document.getElementById('canvas') as HTMLCanvasElement
 
 const engine = Matter.Engine.create()
 
+// engine.gravity.y = 0
+
 const render = Matter.Render.create({
   canvas,
   engine,
 })
 
-const boxA = Matter.Bodies.rectangle(400, 200, 80, 80)
-const boxB = Matter.Bodies.rectangle(450, 50, 80, 80)
-const ground = Matter.Bodies.rectangle(400, 610, 810, 60, { isStatic: true })
+const resize = () => {
+  canvas.width = document.body.clientWidth
+  canvas.height = document.body.clientHeight
+}
 
-Matter.Composite.add(engine.world, [boxA, boxB, ground])
+resize()
+window.onresize = resize
+
+const ground = Matter.Bodies.rectangle(400, 610, 810, 60, { isStatic: true, isSensor: true })
+
+
+
+Matter.Composite.add(engine.world, ground)
 
 Matter.Render.run(render)
 
 const runner = Matter.Runner.create()
 
 Matter.Runner.run(runner, engine)
+
+canvas.onmousedown = e => {
+  const circle = Matter.Bodies.circle(e.clientX, e.clientY, 40)
+  Matter.Composite.add(engine.world, [circle])
+}

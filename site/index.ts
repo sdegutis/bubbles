@@ -14,7 +14,7 @@ engine.gravity.y = 0.15
 const colors = new Map<Matter.Body, number>()
 
 window.addEventListener('deviceorientation', e => {
-  engine.gravity.y = (e.beta ?? 0) / 140
+  engine.gravity.y = (e.beta ?? 0.15 * 140) / 140
   engine.gravity.x = (e.gamma ?? 0) / 140
 }, true)
 

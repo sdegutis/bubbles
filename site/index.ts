@@ -37,20 +37,21 @@ function run() {
     }
 
     const grad = ctx.createRadialGradient(pos.x, pos.y, 20, pos.x + .01, pos.y + .01, 0)
-
     grad.addColorStop(0, '#19ff')
-
     grad.addColorStop(.01, '#19ff')
     grad.addColorStop(.20, '#19f5')
     grad.addColorStop(.40, '#19f2')
     grad.addColorStop(.80, '#19f0')
     grad.addColorStop(.90, '#0000')
-
     grad.addColorStop(1, '#0000')
-
     ctx.fillStyle = grad
     ctx.beginPath()
     ctx.arc(pos.x, pos.y, 20, 0, Math.PI * 2)
+    ctx.fill()
+
+    ctx.fillStyle = '#fff'
+    ctx.beginPath()
+    ctx.ellipse(pos.x - 10, pos.y - 10, 1.5, 4, Math.PI / 4, 0, Math.PI * 2)
     ctx.fill()
   }
 }

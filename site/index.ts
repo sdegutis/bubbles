@@ -8,40 +8,40 @@ setTimeout(() => {
   canvas.height = document.body.clientHeight
 })
 
+const ctx = canvas.getContext('2d')!
+
 const engine = Matter.Engine.create()
 
-engine.gravity.y = 0.2
-
-const render = Matter.Render.create({
-  canvas,
-  engine,
-})
-
-const ground = Matter.Bodies.rectangle(400, 610, 810, 60, { isStatic: true, isSensor: true })
-
-const bubbles: Matter.Body[] = []
-
-Matter.Composite.add(engine.world, ground)
-
-Matter.Render.run(render)
+engine.gravity.y = 0.15
 
 ontick(d => {
   Matter.Engine.update(engine, 1000 / 60)
 
-  for (const b of bubbles) {
-    if (Matter.Collision.collides(ground, b)?.collided) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+  for (const b of Matter.Composite.allBodies(engine.world)) {
+    const pos = b.vertices[0]!
+
+    if (pos.y > canvas.height) {
       Matter.Composite.remove(engine.world, b)
+      continue
     }
+
+    ctx.fillStyle = '#9009'
+    ctx.beginPath()
+    ctx.arc(pos.x, pos.y, 20, 0, Math.PI * 2)
+    ctx.fill()
   }
 }, 60)
 
 canvas.onmousedown = e => {
   const circle = Matter.Bodies.circle(e.clientX, e.clientY, 20)
-  bubbles.push(circle)
   Matter.Composite.add(engine.world, [circle])
   canvas.onmousemove = e => {
-    const circle = Matter.Bodies.circle(e.clientX, e.clientY, 20)
-    bubbles.push(circle)
+    // console.log(e.movementX, e.movementY)
+    const circle = Matter.Bodies.circle(e.clientX, e.clientY, 20, {
+      // velocity: { x: e.movementX, y: e.movementY }
+    })
     Matter.Composite.add(engine.world, [circle])
   }
   canvas.onmouseup = () => {

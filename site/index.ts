@@ -1,6 +1,12 @@
-import { addCircle, canvas } from "./lib.js"
+import { addCircle, canvas, engine } from "./lib.js"
 
 new EventSource('/reload').onmessage = () => location.reload()
+
+engine.gravity.y = 0.15
+window.addEventListener('deviceorientation', e => {
+  engine.gravity.y = (e.beta ?? 0.15 * 140) / 140
+  engine.gravity.x = (e.gamma ?? 0) / 140
+}, true)
 
 const aborts = new Map<number, AbortController>()
 

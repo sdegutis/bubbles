@@ -16,17 +16,9 @@ window.onresize = () => {
 document.body.append(canvas)
 
 const ctx = canvas.getContext('2d')!
-const engine = Matter.Engine.create()
-
-engine.gravity.y = 0.15
+export const engine = Matter.Engine.create()
 
 const bubbles = new Map<Matter.Body, { color: number, size: number }>()
-
-window.addEventListener('deviceorientation', e => {
-  engine.gravity.y = (e.beta ?? 0.15 * 140) / 140
-  engine.gravity.x = (e.gamma ?? 0) / 140
-}, true)
-
 let rotateHue = 0
 
 export function clearAll() {

@@ -11,13 +11,10 @@ const engine = Matter.Engine.create()
 
 engine.gravity.y = 0.15
 
+const colors = new Map<Matter.Body, number>()
 
-
-const circle = Matter.Bodies.circle(20, 20, 15)
-Matter.Composite.add(engine.world, [circle])
-engine.gravity.y = 0
-
-
+// engine.gravity.y = 0
+// addCircle(20, 20, 0, 0)
 
 run()
 function run() {
@@ -35,12 +32,15 @@ function run() {
       continue
     }
 
+    const hue = colors.get(b)!
+    const col = (alpha: number) => `hsl(${hue}deg 100% 53.33% / ${alpha})`
+
     const grad = ctx.createRadialGradient(pos.x, pos.y, 20, pos.x + .01, pos.y + .01, 0)
-    grad.addColorStop(0, '#19ff')
-    grad.addColorStop(.01, '#19ff')
-    grad.addColorStop(.20, '#19f5')
-    grad.addColorStop(.40, '#19f2')
-    grad.addColorStop(.80, '#19f0')
+    grad.addColorStop(0, col(1))
+    grad.addColorStop(.01, col(1))
+    grad.addColorStop(.20, col(.33))
+    grad.addColorStop(.40, col(.13))
+    grad.addColorStop(.80, col(0))
     grad.addColorStop(.90, '#0000')
     grad.addColorStop(1, '#0000')
     ctx.fillStyle = grad
@@ -56,7 +56,7 @@ function run() {
     ctx.ellipse(pos.x, pos.y - 7, 16, 12, 0, 0, Math.PI * 2)
     ctx.fill()
 
-    ctx.fillStyle = '#fff9'
+    ctx.fillStyle = '#fffc'
     ctx.beginPath()
     ctx.ellipse(pos.x - 10, pos.y - 10, 1.5, 4, Math.PI / 4, 0, Math.PI * 2)
     ctx.fill()
@@ -65,20 +65,24 @@ function run() {
 
 const aborts = new Map<number, AbortController>()
 
+function addCircle(x: number, y: number, mx: number, my: number) {
+  const circle = Matter.Bodies.circle(x, y, 15)
+  Matter.Composite.add(engine.world, circle)
+  const factor = 10
+  colors.set(circle, (Math.random() * 360))
+  if (mx || my) Matter.Body.setVelocity(circle, { x: mx / factor, y: my / factor })
+}
+
 canvas.onpointerdown = e => {
   canvas.setPointerCapture(e.pointerId)
 
-  const circle = Matter.Bodies.circle(e.clientX, e.clientY, 15)
-  Matter.Composite.add(engine.world, [circle])
+  addCircle(e.clientX, e.clientY, 0, 0)
 
   const abort = new AbortController()
   aborts.set(e.pointerId, abort)
 
   canvas.addEventListener('pointermove', (e) => {
-    const circle = Matter.Bodies.circle(e.clientX, e.clientY, 15)
-    Matter.Composite.add(engine.world, [circle])
-    const factor = 10
-    Matter.Body.setVelocity(circle, { x: e.movementX / factor, y: e.movementY / factor })
+    addCircle(e.clientX, e.clientY, e.movementX, e.movementY)
   }, { signal: abort.signal })
 
   canvas.addEventListener('pointerup', (e) => {

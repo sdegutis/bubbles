@@ -78,7 +78,7 @@ function addCircle(x: number, y: number, mx: number, my: number, pressure: numbe
     const ox = Math.random() * 2 - 1
     const oy = Math.random() * 2 - 1
 
-    const circle = Matter.Bodies.circle(x + ox, y + oy, 15)
+    const circle = Matter.Bodies.circle(x + ox, y + oy, 18)
     Matter.Composite.add(engine.world, circle)
 
     colors.set(circle, (Math.random() * 360))

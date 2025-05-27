@@ -1,10 +1,12 @@
 # bubbles
 
-Screensaver for websites
+*Drop-in screensaver script for websites*
 
 ## Demo
 
-<https://bubbles.90s.dev/ssaver.html>
+https://bubbles.90s.dev/ssaver.html
+
+It has a very short delay (1s)
 
 ## Usage
 
@@ -12,7 +14,7 @@ Screensaver for websites
 <script src="./ssaver.js" type="module"></script>
 ```
 
-With parameters:
+Or with parameters:
 
 ```html
 <script src="./ssaver.js?delay=1&speed=7" type="module"></script>
@@ -20,9 +22,9 @@ With parameters:
 
 ## Parameters
 
-* `delay`: how many seconds page must be idle
-* `speed`: how fast the bubbles do things
-* `interval`: how many milliseconds between new bubbles
+* `delay (default=60)`: how many seconds page must be idle
+* `speed (default=2)`: how fast the bubbles do things
+* `interval (default=100)`: how many milliseconds between new bubbles
 
 ## License
 

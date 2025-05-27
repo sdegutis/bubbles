@@ -5,6 +5,7 @@ export const canvas = document.createElement('canvas')
 
 canvas.style.position = 'fixed'
 canvas.style.inset = '0 0'
+canvas.style.zIndex = '1000000'
 
 canvas.style.touchAction = 'none'
 canvas.width = document.documentElement.clientWidth

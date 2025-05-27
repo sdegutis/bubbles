@@ -1,6 +1,6 @@
 import { addCircle, canvas, clearAll } from "./lib.js"
 
-const sec = +(new URL(import.meta.url).searchParams.get('sec') ?? '10')
+const sec = +(new URL(import.meta.url).searchParams.get('sec') ?? '60')
 
 new EventSource('/reload').onmessage = () => location.reload()
 

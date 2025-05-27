@@ -41,22 +41,27 @@ ontick(d => {
   }
 }, 60)
 
+const aborts = new Map<number, AbortController>()
+
 canvas.onpointerdown = e => {
   canvas.setPointerCapture(e.pointerId)
 
   const circle = Matter.Bodies.circle(e.clientX, e.clientY, 20)
   Matter.Composite.add(engine.world, [circle])
 
-  canvas.onpointermove = e => {
+  const abort = new AbortController()
+  aborts.set(e.pointerId, abort)
+
+  canvas.addEventListener('pointermove', (e) => {
     const circle = Matter.Bodies.circle(e.clientX, e.clientY, 20)
     Matter.Composite.add(engine.world, [circle])
     const factor = 10
     Matter.Body.setVelocity(circle, { x: e.movementX / factor, y: e.movementY / factor })
+  }, { signal: abort.signal })
 
-    canvas.onpointerup = e => {
-      canvas.onpointermove = null
-    }
-  }
+  canvas.addEventListener('pointerup', (e) => {
+    aborts.get(e.pointerId)!.abort()
+  }, { once: true, })
 }
 
 function ontick(fn: (d: number) => void, fps = 30) {

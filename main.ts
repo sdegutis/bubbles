@@ -1,10 +1,18 @@
-import { DevServer, FileTree, Pipeline } from "immaculata"
+import { DevServer, FileTree, generateFiles, Pipeline } from "immaculata"
 import { stripTypeScriptTypes } from "module"
 
 const site = new FileTree('site', import.meta.dirname)
-const server = new DevServer(8181)
 
-async function run() {
+if (process.argv[2] === 'dev') {
+  const server = new DevServer(8181)
+  server.files = run()
+  site.watch().on('filesUpdated', () => server.files = run())
+}
+else {
+  generateFiles(run())
+}
+
+function run() {
   const files = Pipeline.from(site.files)
 
   files.with(/\.ts$/).do(f => {
@@ -12,8 +20,5 @@ async function run() {
     f.text = stripTypeScriptTypes(f.text)
   })
 
-  server.files = files.results()
+  return files.results()
 }
-
-run()
-site.watch().on('filesUpdated', run)

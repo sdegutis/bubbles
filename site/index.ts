@@ -11,7 +11,7 @@ const engine = Matter.Engine.create()
 
 engine.gravity.y = 0.15
 
-const bubbles = new Map<Matter.Body, { color: number, }>()
+const bubbles = new Map<Matter.Body, { color: number, size: number }>()
 
 window.addEventListener('deviceorientation', e => {
   engine.gravity.y = (e.beta ?? 0.15 * 140) / 140
@@ -45,12 +45,13 @@ function run() {
       continue
     }
 
-    const info = bubbles.get(b)
+    const info = bubbles.get(b)!
+    const size = info.size
 
-    const hue = (info!.color + rotateHue) % 360
+    const hue = (info.color + rotateHue) % 360
     const col = (alpha: number) => `hsl(${hue}deg 100% 53.33% / ${alpha})`
 
-    const grad = ctx.createRadialGradient(pos.x, pos.y, 20, pos.x + .01, pos.y + .01, 0)
+    const grad = ctx.createRadialGradient(pos.x, pos.y, size, pos.x + .01, pos.y + .01, 0)
     grad.addColorStop(0, col(1))
     grad.addColorStop(.01, col(1))
     grad.addColorStop(.20, col(.33))
@@ -60,20 +61,29 @@ function run() {
     grad.addColorStop(1, '#0000')
     ctx.fillStyle = grad
     ctx.beginPath()
-    ctx.arc(pos.x, pos.y, 20, 0, Math.PI * 2)
+    ctx.arc(pos.x, pos.y, size, 0, Math.PI * 2)
     ctx.fill()
 
-    const grad2 = ctx.createRadialGradient(pos.x, pos.y, 20, pos.x + .01, pos.y + .01 - 3, 10)
+    const grad2 = ctx.createRadialGradient(pos.x, pos.y, size, pos.x + .01, pos.y + .01 - 3, size / 2)
     grad2.addColorStop(0, '#fff7')
     grad2.addColorStop(1, '#0000')
     ctx.fillStyle = grad2
     ctx.beginPath()
-    ctx.ellipse(pos.x, pos.y - 7, 16, 12, 0, 0, Math.PI * 2)
+    ctx.ellipse(
+      pos.x, pos.y - 7,
+      size * 16 / 20, size * 12 / 20,
+      0,
+      0, Math.PI * 2)
     ctx.fill()
 
     ctx.fillStyle = '#fffc'
     ctx.beginPath()
-    ctx.ellipse(pos.x - 10, pos.y - 10, 1.5, 4, Math.PI / 4, 0, Math.PI * 2)
+    ctx.ellipse(
+      pos.x - (size / 2),
+      pos.y - (size / 2),
+      size * 1.5 / 20, size * 4 / 20,
+      Math.PI / 4,
+      0, Math.PI * 2)
     ctx.fill()
   }
 }
@@ -85,10 +95,12 @@ function addCircle(x: number, y: number, mx: number, my: number, pressure: numbe
     const ox = Math.random() * 2 - 1
     const oy = Math.random() * 2 - 1
 
-    const circle = Matter.Bodies.circle(x + ox, y + oy, 18)
+    const size = Math.random() * 30 + 5
+
+    const circle = Matter.Bodies.circle(x + ox, y + oy, size * (18 / 20))
     Matter.Composite.add(engine.world, circle)
 
-    bubbles.set(circle, ({ color: Math.random() * 360 }))
+    bubbles.set(circle, ({ color: Math.random() * 360, size }))
 
     if (mx || my)
       Matter.Body.setVelocity(circle, { x: mx / 10, y: my / 10 })

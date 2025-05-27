@@ -14,7 +14,7 @@ engine.gravity.y = 0.15
 
 
 
-const circle = Matter.Bodies.circle(200, 200, 15)
+const circle = Matter.Bodies.circle(20, 20, 15)
 Matter.Composite.add(engine.world, [circle])
 engine.gravity.y = 0
 
@@ -40,11 +40,11 @@ function run() {
 
     grad.addColorStop(0, '#19ff')
 
-    grad.addColorStop(.02, '#19ff')
-    grad.addColorStop(.10, '#19f7')
-    grad.addColorStop(.30, '#19f3')
-    grad.addColorStop(.50, '#19f0')
-    grad.addColorStop(.80, '#0000')
+    grad.addColorStop(.01, '#19ff')
+    grad.addColorStop(.20, '#19f5')
+    grad.addColorStop(.40, '#19f2')
+    grad.addColorStop(.80, '#19f0')
+    grad.addColorStop(.90, '#0000')
 
     grad.addColorStop(1, '#0000')
 

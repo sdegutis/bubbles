@@ -7,13 +7,17 @@ const aborts = new Map<number, AbortController>()
 canvas.onpointerdown = e => {
   canvas.setPointerCapture(e.pointerId)
 
-  addCircle(e.clientX, e.clientY, 0, 0, e.pressure)
+  for (let i = 0; i < 1 * e.pressure ** e.pressure; i++) {
+    addCircle(e.clientX, e.clientY, 0, 0)
+  }
 
   const abort = new AbortController()
   aborts.set(e.pointerId, abort)
 
   canvas.addEventListener('pointermove', (e) => {
-    addCircle(e.clientX, e.clientY, e.movementX, e.movementY, e.pressure)
+    for (let i = 0; i < 1 * e.pressure ** e.pressure; i++) {
+      addCircle(e.clientX, e.clientY, e.movementX, e.movementY)
+    }
   }, { signal: abort.signal })
 
   canvas.addEventListener('pointerup', (e) => {

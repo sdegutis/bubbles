@@ -1,4 +1,4 @@
-import { addCircle, canvas, engine } from "./lib.js"
+import { addCircle, canvas, engine, Matter } from "./lib.js"
 
 new EventSource('/reload').onmessage = () => location.reload()
 
@@ -13,7 +13,8 @@ const aborts = new Map<number, AbortController>()
 function addCircles(e: PointerEvent) {
   for (let i = 0; i < 1 * e.pressure ** e.pressure; i++) {
     const size = Math.random() * 30 + 5
-    addCircle(e.clientX, e.clientY, e.movementX, e.movementY, size)
+    const circle = addCircle(e.clientX, e.clientY, size)
+    Matter.Body.setVelocity(circle, { x: e.movementX / 10, y: e.movementY / 10 })
     navigator.vibrate(1)
   }
 }

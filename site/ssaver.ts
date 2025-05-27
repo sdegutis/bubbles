@@ -1,4 +1,6 @@
-import { addCircle, canvas, clearAll } from "./lib.js"
+import { addCircle, canvas, clearAll, engine, Matter } from "./lib.js"
+
+engine.gravity.y = 0
 
 const sec = +(new URL(import.meta.url).searchParams.get('sec') ?? '60')
 
@@ -27,11 +29,12 @@ function addBubbles() {
   const x = Math.random() * canvas.width
   const y = Math.random() * canvas.height
 
-  const d = 20
+  const d = 10
   const mx = Math.random() * (d * 2) - d
   const my = Math.random() * (d * 2) - d
 
   const size = Math.random() * 10 + 20
 
-  addCircle(x, y, mx, my, size)
+  const circle = addCircle(x, y, size)
+  Matter.Body.setVelocity(circle, { x: mx, y: my })
 }

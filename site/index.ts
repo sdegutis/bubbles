@@ -58,7 +58,7 @@ function run() {
     const grad = ctx.createRadialGradient(pos.x, pos.y, size, pos.x + .01, pos.y + .01, 0)
     grad.addColorStop(0, col(1))
     grad.addColorStop(.01, col(1))
-    grad.addColorStop(.20, col(.33))
+    grad.addColorStop(.10, col(.33))
     grad.addColorStop(.40, col(.13))
     grad.addColorStop(.80, col(0))
     grad.addColorStop(.90, '#0000')

@@ -29,7 +29,13 @@ function run() {
   for (const b of Matter.Composite.allBodies(engine.world)) {
     const pos = b.vertices[0]!
 
-    if (pos.y > canvas.height + 100 || pos.x > canvas.width + 100 || pos.x < -100) {
+    const edge = 200
+    if (
+      pos.x < -edge ||
+      pos.y < -edge ||
+      pos.x > canvas.width + edge ||
+      pos.y > canvas.height + edge
+    ) {
       Matter.Composite.remove(engine.world, b)
       continue
     }

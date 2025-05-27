@@ -18,9 +18,14 @@ window.addEventListener('deviceorientation', e => {
   engine.gravity.x = (e.gamma ?? 0) / 140
 }, true)
 
+let rotateHue = 0
+
 run()
 function run() {
   requestAnimationFrame(run)
+
+  rotateHue++
+  if (rotateHue >= 360) rotateHue = 0
 
   Matter.Engine.update(engine, 1000 / 60)
 
@@ -40,7 +45,7 @@ function run() {
       continue
     }
 
-    const hue = colors.get(b)!
+    const hue = (colors.get(b)! + rotateHue) % 360
     const col = (alpha: number) => `hsl(${hue}deg 100% 53.33% / ${alpha})`
 
     const grad = ctx.createRadialGradient(pos.x, pos.y, 20, pos.x + .01, pos.y + .01, 0)
@@ -83,7 +88,8 @@ function addCircle(x: number, y: number, mx: number, my: number, pressure: numbe
 
     colors.set(circle, (Math.random() * 360))
 
-    if (mx || my) Matter.Body.setVelocity(circle, { x: mx / 10, y: my / 10 })
+    if (mx || my)
+      Matter.Body.setVelocity(circle, { x: mx / 10, y: my / 10 })
 
     navigator.vibrate(1)
   }

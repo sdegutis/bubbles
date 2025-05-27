@@ -28,31 +28,34 @@ export function clearAll() {
   bubbles.clear()
 }
 
-run()
-function run() {
-  requestAnimationFrame(run)
+ontick(update, 60)
+ontick(draw, 30)
 
-  rotateHue++
-  if (rotateHue >= 360) rotateHue = 0
-
+function update() {
   Matter.Engine.update(engine, 1000 / 60)
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
 
   for (const b of Matter.Composite.allBodies(engine.world)) {
     const pos = b.vertices[0]!
 
     const edge = 200
-    if (
-      pos.x < -edge ||
+    if (pos.x < -edge ||
       pos.y < -edge ||
       pos.x > canvas.width + edge ||
-      pos.y > canvas.height + edge
-    ) {
+      pos.y > canvas.height + edge) {
       Matter.Composite.remove(engine.world, b)
       bubbles.delete(b)
-      continue
     }
+  }
+}
+
+function draw() {
+  rotateHue++
+  if (rotateHue >= 360) rotateHue = 0
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+  for (const b of Matter.Composite.allBodies(engine.world)) {
+    const pos = b.vertices[0]!
 
     const info = bubbles.get(b)!
     const size = info.size
@@ -108,4 +111,22 @@ export function addCircle(x: number, y: number, size: number) {
   bubbles.set(circle, { color: Math.random() * 360, size })
 
   return circle
+}
+
+function ontick(fn: (d: number) => void, fps: number) {
+  let done: number
+  let last = performance.now();
+
+  (function tick(now: number) {
+
+    const delta = now - last
+    if (delta + 1 >= 1000 / fps) {
+      last = now
+      fn(delta)
+    }
+
+    done = requestAnimationFrame(tick)
+  })(last)
+
+  return () => cancelAnimationFrame(done)
 }

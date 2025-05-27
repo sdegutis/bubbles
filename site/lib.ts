@@ -51,6 +51,7 @@ function run() {
       pos.y > canvas.height + edge
     ) {
       Matter.Composite.remove(engine.world, b)
+      bubbles.delete(b)
       continue
     }
 
@@ -105,7 +106,7 @@ export function addCircle(x: number, y: number, mx: number, my: number, size: nu
   const circle = Matter.Bodies.circle(x + ox, y + oy, size * (18 / 20))
   Matter.Composite.add(engine.world, circle)
 
-  bubbles.set(circle, ({ color: Math.random() * 360, size }))
+  bubbles.set(circle, { color: Math.random() * 360, size })
 
   if (mx || my)
     Matter.Body.setVelocity(circle, { x: mx / 10, y: my / 10 })

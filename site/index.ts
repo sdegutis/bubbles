@@ -16,6 +16,12 @@ const colors = new Map<Matter.Body, number>()
 // engine.gravity.y = 0
 // addCircle(20, 20, 0, 0)
 
+window.addEventListener('deviceorientation', e => {
+  engine.gravity.y = e.beta ?? 0
+  engine.gravity.x = e.gamma ?? 0
+  // console.log(e)
+}, true)
+
 run()
 function run() {
   requestAnimationFrame(run)
@@ -82,7 +88,6 @@ function addCircle(x: number, y: number, mx: number, my: number, pressure: numbe
 }
 
 canvas.onpointerdown = e => {
-
   canvas.setPointerCapture(e.pointerId)
 
   addCircle(e.clientX, e.clientY, 0, 0, e.pressure)

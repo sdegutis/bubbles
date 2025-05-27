@@ -1,5 +1,7 @@
 import { addCircle, canvas, clearAll, engine, Matter } from "./lib.js"
 
+console.log('screensaver brought to you by https://github.com/sdegutis/bubbles/')
+
 engine.gravity.y = 0
 
 const params = new URL(import.meta.url).searchParams

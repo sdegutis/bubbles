@@ -7,7 +7,7 @@ const aborts = new Map<number, AbortController>()
 function addCircles(e: PointerEvent) {
   for (let i = 0; i < 1 * e.pressure ** e.pressure; i++) {
     const size = Math.random() * 30 + 5
-    addCircle(e.clientX, e.clientY, 0, 0, size)
+    addCircle(e.clientX, e.clientY, e.movementX, e.movementY, size)
     navigator.vibrate(1)
   }
 }

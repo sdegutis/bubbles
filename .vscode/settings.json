@@ -1,4 +1,5 @@
 {
   "task.allowAutomaticTasks": "on",
-  "typescript.preferences.preferTypeOnlyAutoImports": true
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
+  "typescript.preferences.importModuleSpecifierEnding": "js",
 }

@@ -53,7 +53,8 @@ function run() {
     const size = info.size
 
     const hue = (info.color + rotateHue) % 360
-    const col = (alpha: number) => `hsl(${hue}deg 100% 53.33% / ${alpha})`
+    const lit = 53.33 + Math.max(0, 70 - Math.abs(244 - hue)) / 4 // magic!
+    const col = (alpha: number) => `hsl(${hue}deg 100% ${lit}% / ${alpha})`
 
     const grad = ctx.createRadialGradient(pos.x, pos.y, size, pos.x + .01, pos.y + .01, 0)
     grad.addColorStop(0, col(1))

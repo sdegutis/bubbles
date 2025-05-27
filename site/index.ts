@@ -27,7 +27,7 @@ function run() {
   for (const b of Matter.Composite.allBodies(engine.world)) {
     const pos = b.vertices[0]!
 
-    if (pos.y > canvas.height + 100) {
+    if (pos.y > canvas.height + 100 || pos.x > canvas.width + 100 || pos.x < -100) {
       Matter.Composite.remove(engine.world, b)
       continue
     }
@@ -65,25 +65,33 @@ function run() {
 
 const aborts = new Map<number, AbortController>()
 
-function addCircle(x: number, y: number, mx: number, my: number) {
-  const circle = Matter.Bodies.circle(x, y, 15)
-  Matter.Composite.add(engine.world, circle)
-  const factor = 10
-  colors.set(circle, (Math.random() * 360))
-  if (mx || my) Matter.Body.setVelocity(circle, { x: mx / factor, y: my / factor })
-  navigator.vibrate(1)
+function addCircle(x: number, y: number, mx: number, my: number, pressure: number) {
+  for (let i = 0; i < 1 * pressure ** pressure; i++) {
+    const ox = Math.random() * 2 - 1
+    const oy = Math.random() * 2 - 1
+
+    const circle = Matter.Bodies.circle(x + ox, y + oy, 15)
+    Matter.Composite.add(engine.world, circle)
+
+    colors.set(circle, (Math.random() * 360))
+
+    if (mx || my) Matter.Body.setVelocity(circle, { x: mx / 10, y: my / 10 })
+
+    navigator.vibrate(1)
+  }
 }
 
 canvas.onpointerdown = e => {
+
   canvas.setPointerCapture(e.pointerId)
 
-  addCircle(e.clientX, e.clientY, 0, 0)
+  addCircle(e.clientX, e.clientY, 0, 0, e.pressure)
 
   const abort = new AbortController()
   aborts.set(e.pointerId, abort)
 
   canvas.addEventListener('pointermove', (e) => {
-    addCircle(e.clientX, e.clientY, e.movementX, e.movementY)
+    addCircle(e.clientX, e.clientY, e.movementX, e.movementY, e.pressure)
   }, { signal: abort.signal })
 
   canvas.addEventListener('pointerup', (e) => {

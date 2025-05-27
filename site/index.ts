@@ -29,7 +29,9 @@ ontick(d => {
 
     const grad = ctx.createRadialGradient(pos.x, pos.y, 20, pos.x + .1, pos.y + .1, 0)
 
-    grad.addColorStop(0, '#9009')
+    grad.addColorStop(0, '#19ff')
+    grad.addColorStop(.1, '#19f5')
+    grad.addColorStop(.5, '#19f0')
     grad.addColorStop(1, '#0000')
 
     ctx.fillStyle = grad

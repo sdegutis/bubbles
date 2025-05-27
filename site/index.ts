@@ -5,6 +5,10 @@ new EventSource('/reload').onmessage = () => location.reload()
 const canvas = document.getElementById('canvas') as HTMLCanvasElement
 canvas.width = document.body.clientWidth
 canvas.height = document.body.clientHeight
+window.onresize = () => {
+  canvas.width = document.body.clientWidth
+  canvas.height = document.body.clientHeight
+}
 
 const ctx = canvas.getContext('2d')!
 const engine = Matter.Engine.create()

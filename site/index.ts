@@ -23,17 +23,42 @@ window.onresize = resize
 
 const ground = Matter.Bodies.rectangle(400, 610, 810, 60, { isStatic: true, isSensor: true })
 
-
+const bubbles: Matter.Body[] = []
 
 Matter.Composite.add(engine.world, ground)
 
 Matter.Render.run(render)
 
-const runner = Matter.Runner.create()
+ontick(d => {
+  Matter.Engine.update(engine, 1000 / 60)
 
-Matter.Runner.run(runner, engine)
+  for (const b of bubbles) {
+    if (Matter.Collision.collides(ground, b)?.collided) {
+      Matter.Composite.remove(engine.world, b)
+    }
+  }
+}, 60)
 
 canvas.onmousedown = e => {
   const circle = Matter.Bodies.circle(e.clientX, e.clientY, 40)
+  bubbles.push(circle)
   Matter.Composite.add(engine.world, [circle])
+}
+
+function ontick(fn: (d: number) => void, fps = 30) {
+  let done: number
+  let last = performance.now();
+
+  (function tick(now: number) {
+
+    const delta = now - last
+    if (delta + 1 >= 1000 / fps) {
+      last = now
+      fn(delta)
+    }
+
+    done = requestAnimationFrame(tick)
+  })(last)
+
+  return () => cancelAnimationFrame(done)
 }

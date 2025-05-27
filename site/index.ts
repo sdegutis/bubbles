@@ -11,7 +11,7 @@ const engine = Matter.Engine.create()
 
 engine.gravity.y = 0.15
 
-const colors = new Map<Matter.Body, number>()
+const bubbles = new Map<Matter.Body, { color: number, }>()
 
 window.addEventListener('deviceorientation', e => {
   engine.gravity.y = (e.beta ?? 0.15 * 140) / 140
@@ -45,7 +45,9 @@ function run() {
       continue
     }
 
-    const hue = (colors.get(b)! + rotateHue) % 360
+    const info = bubbles.get(b)
+
+    const hue = (info!.color + rotateHue) % 360
     const col = (alpha: number) => `hsl(${hue}deg 100% 53.33% / ${alpha})`
 
     const grad = ctx.createRadialGradient(pos.x, pos.y, 20, pos.x + .01, pos.y + .01, 0)
@@ -86,7 +88,7 @@ function addCircle(x: number, y: number, mx: number, my: number, pressure: numbe
     const circle = Matter.Bodies.circle(x + ox, y + oy, 18)
     Matter.Composite.add(engine.world, circle)
 
-    colors.set(circle, (Math.random() * 360))
+    bubbles.set(circle, ({ color: Math.random() * 360 }))
 
     if (mx || my)
       Matter.Body.setVelocity(circle, { x: mx / 10, y: my / 10 })

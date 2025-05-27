@@ -3,10 +3,8 @@ import Matter from 'matter-js'
 new EventSource('/reload').onmessage = () => location.reload()
 
 const canvas = document.getElementById('canvas') as HTMLCanvasElement
-setTimeout(() => {
-  canvas.width = document.body.clientWidth
-  canvas.height = document.body.clientHeight
-})
+canvas.width = document.body.clientWidth
+canvas.height = document.body.clientHeight
 
 const ctx = canvas.getContext('2d')!
 

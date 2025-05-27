@@ -14,7 +14,10 @@ const engine = Matter.Engine.create()
 
 engine.gravity.y = 0.15
 
-ontick(d => {
+run()
+function run() {
+  requestAnimationFrame(run)
+
   Matter.Engine.update(engine, 1000 / 60)
 
   ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -39,7 +42,7 @@ ontick(d => {
     ctx.arc(pos.x, pos.y, 20, 0, Math.PI * 2)
     ctx.fill()
   }
-}, 60)
+}
 
 const aborts = new Map<number, AbortController>()
 
@@ -62,22 +65,4 @@ canvas.onpointerdown = e => {
   canvas.addEventListener('pointerup', (e) => {
     aborts.get(e.pointerId)!.abort()
   }, { once: true, })
-}
-
-function ontick(fn: (d: number) => void, fps = 30) {
-  let done: number
-  let last = performance.now();
-
-  (function tick(now: number) {
-
-    const delta = now - last
-    if (delta + 1 >= 1000 / fps) {
-      last = now
-      fn(delta)
-    }
-
-    done = requestAnimationFrame(tick)
-  })(last)
-
-  return () => cancelAnimationFrame(done)
 }

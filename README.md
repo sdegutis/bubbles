@@ -6,18 +6,18 @@
 
 https://bubbles.90s.dev/ssaver.html
 
-It has a very short delay `(1s)`
+It has a very short delay (`1s`)
 
 ## Usage
 
 ```html
-<script src="./ssaver.js" type="module"></script>
+<script src="https://bubbles.90s.dev/ssaver.js" type="module"></script>
 ```
 
 Or with parameters:
 
 ```html
-<script src="./ssaver.js?delay=1&speed=7" type="module"></script>
+<script src="https://bubbles.90s.dev/ssaver.js?delay=1&speed=7" type="module"></script>
 ```
 
 ## Parameters

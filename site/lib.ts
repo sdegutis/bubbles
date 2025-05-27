@@ -29,6 +29,11 @@ window.addEventListener('deviceorientation', e => {
 
 let rotateHue = 0
 
+export function clearAll() {
+  Matter.Composite.clear(engine.world, false)
+  bubbles.clear()
+}
+
 run()
 function run() {
   requestAnimationFrame(run)

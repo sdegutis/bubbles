@@ -3,10 +3,9 @@ import { addCircle, canvas, clearAll, engine, Matter } from "./lib.js"
 engine.gravity.y = 0
 
 const params = new URL(import.meta.url).searchParams
-const intsec = +(params.get('sec') ?? '60')
+const delay = +(params.get('delay') ?? '60')
 const speed = +(params.get('speed') ?? '2')
-
-console.log(speed)
+const interval = +(params.get('interval') ?? '100')
 
 new EventSource('/reload').onmessage = () => location.reload()
 
@@ -18,8 +17,8 @@ const restartIdleTimer = () => {
   clearTimeout(timeout)
   timeout = setTimeout(() => {
     canvas.style.display = 'block'
-    timeout = setInterval(addBubbles, 100)
-  }, intsec * 1000)
+    timeout = setInterval(addBubbles, interval)
+  }, delay * 1000)
 }
 restartIdleTimer()
 

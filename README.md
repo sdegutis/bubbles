@@ -15,13 +15,14 @@ Screensaver for websites
 With parameters:
 
 ```html
-<script src="./ssaver.js?sec=1&speed=7" type="module"></script>
+<script src="./ssaver.js?delay=1&speed=7" type="module"></script>
 ```
 
 ## Parameters
 
-* `sec`: number of seconds page must be idle
+* `delay`: how many seconds page must be idle
 * `speed`: how fast the bubbles do things
+* `interval`: how many milliseconds between new bubbles
 
 ## License
 

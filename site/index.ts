@@ -22,7 +22,7 @@ ontick(d => {
   for (const b of Matter.Composite.allBodies(engine.world)) {
     const pos = b.vertices[0]!
 
-    if (pos.y > canvas.height) {
+    if (pos.y > canvas.height + 100) {
       Matter.Composite.remove(engine.world, b)
       continue
     }
@@ -38,11 +38,10 @@ canvas.onmousedown = e => {
   const circle = Matter.Bodies.circle(e.clientX, e.clientY, 20)
   Matter.Composite.add(engine.world, [circle])
   canvas.onmousemove = e => {
-    // console.log(e.movementX, e.movementY)
-    const circle = Matter.Bodies.circle(e.clientX, e.clientY, 20, {
-      // velocity: { x: e.movementX, y: e.movementY }
-    })
+    const circle = Matter.Bodies.circle(e.clientX, e.clientY, 20)
     Matter.Composite.add(engine.world, [circle])
+    const factor = 10
+    Matter.Body.setVelocity(circle, { x: e.movementX / factor, y: e.movementY / factor })
   }
   canvas.onmouseup = () => {
     canvas.onmousemove = null

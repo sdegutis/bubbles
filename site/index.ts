@@ -36,8 +36,6 @@ function addCircles(e: PointerEvent) {
     const octave = Math.floor((1 - rand) * 3 + 4)
     playNote(note, octave, .3, { type: 'sine', volume: .25 })
   }
-
-  // navigator.vibrate(1)
 }
 
 canvas.onpointerdown = e => {

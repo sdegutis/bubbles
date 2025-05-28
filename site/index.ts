@@ -8,9 +8,24 @@ window.addEventListener('deviceorientation', e => {
 
 const aborts = new Map<number, AbortController>()
 
+let max: number
+let min: number
+
+function setminmax() {
+  const p = 15
+  max = Math.min(
+    document.documentElement.clientWidth * p / 100,
+    document.documentElement.clientHeight * p / 100,
+  )
+  min = max / 7
+}
+
+setminmax()
+window.addEventListener('resize', setminmax)
+
 function addCircles(e: PointerEvent) {
   for (let i = 0; i < 1 * e.pressure ** e.pressure; i++) {
-    const size = Math.random() * 30 + 5
+    const size = Math.random() * (max - min) + min
     const circle = addCircle(e.clientX, e.clientY, size)
     Matter.Body.setVelocity(circle, { x: e.movementX / 10, y: e.movementY / 10 })
     navigator.vibrate(1)

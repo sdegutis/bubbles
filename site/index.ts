@@ -34,7 +34,7 @@ function addCircles(e: PointerEvent) {
     const i = Math.floor(color / 360 * notes.length)
     const note = notes[i]!
     const octave = Math.floor((1 - rand) * 3 + 4)
-    playNote(note, octave, .3, { type: 'sine' })
+    playNote(note, octave, .3, { type: 'sine', volume: .25 })
   }
 
   // navigator.vibrate(1)

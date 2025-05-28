@@ -8,24 +8,23 @@ window.addEventListener('deviceorientation', e => {
 
 const aborts = new Map<number, AbortController>()
 
-let max: number
-let min: number
+let sizes = getSizeBounds()
+window.addEventListener('resize', () => sizes = getSizeBounds())
 
-function setminmax() {
+function getSizeBounds() {
   const p = 15
-  max = Math.min(
+  const max = Math.min(
     document.documentElement.clientWidth * p / 100,
     document.documentElement.clientHeight * p / 100,
   )
-  min = max / 7
+  const min = max / 7
+  return { min, max }
 }
 
-setminmax()
-window.addEventListener('resize', setminmax)
 
 function addCircles(e: PointerEvent) {
   for (let i = 0; i < 1 * e.pressure ** e.pressure; i++) {
-    const size = Math.random() * (max - min) + min
+    const size = Math.random() * (sizes.max - sizes.min) + sizes.min
     const circle = addCircle(e.clientX, e.clientY, size)
     Matter.Body.setVelocity(circle, { x: e.movementX / 10, y: e.movementY / 10 })
     navigator.vibrate(1)

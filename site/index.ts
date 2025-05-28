@@ -1,3 +1,4 @@
+import { notes, playNote } from "./audio.js"
 import { addCircle, canvas, engine, Matter } from "./lib.js"
 
 engine.gravity.y = 0.15
@@ -27,8 +28,18 @@ function addCircles(e: PointerEvent) {
     const size = Math.random() * (sizes.max - sizes.min) + sizes.min
     const circle = addCircle(e.clientX, e.clientY, size)
     Matter.Body.setVelocity(circle, { x: e.movementX / 10, y: e.movementY / 10 })
-    // navigator.vibrate(1)
   }
+
+  // navigator.vibrate(1)
+
+  const note = randomElement(notes)
+  const octave = Math.round(Math.random() * 3 + 2)
+  playNote(note, octave, .3, { type: 'sine' })
+}
+
+function randomElement<A extends ArrayLike<any>, K extends Exclude<keyof A, keyof any[]>>(array: A): A[K] {
+  const i = Math.floor(Math.random() * array.length)
+  return array[i]!
 }
 
 canvas.onpointerdown = e => {

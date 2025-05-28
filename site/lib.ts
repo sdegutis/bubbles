@@ -10,10 +10,10 @@ canvas.style.zIndex = '1000000'
 canvas.style.touchAction = 'none'
 canvas.width = document.documentElement.clientWidth
 canvas.height = document.documentElement.clientHeight
-window.onresize = () => {
+window.addEventListener('resize', () => {
   canvas.width = document.documentElement.clientWidth
   canvas.height = document.documentElement.clientHeight
-}
+})
 
 document.body.append(canvas)
 

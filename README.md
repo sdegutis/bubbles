@@ -2,6 +2,8 @@
 
 *Drop-in screensaver script for websites*
 
+https://github.com/user-attachments/assets/86daae64-4b48-4d8a-966f-4d9dc12e0497
+
 ## Demo
 
 https://bubbles.90s.dev/ssaver.html

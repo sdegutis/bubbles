@@ -1,4 +1,4 @@
-import { addCircle, canvas, clearAll, engine, Matter } from "./lib.js"
+import { addCircle, canvas, clearAll, edge, engine, Matter } from "./lib.js"
 
 console.log('screensaver brought to you by https://github.com/sdegutis/bubbles/')
 
@@ -30,9 +30,11 @@ document.addEventListener('pointerdown', restartIdleTimer, { passive: true })
 document.addEventListener('keydown', restartIdleTimer, { passive: true })
 document.addEventListener('wheel', restartIdleTimer, { passive: true })
 
+const origin = edge * 2 / 3
+
 function addBubbles() {
-  const x = -10
-  const y = canvas.height + 10
+  const x = -origin
+  const y = canvas.height + origin
 
   const mx = Math.random() * +speed
   const my = Math.random() * -speed

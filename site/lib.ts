@@ -31,13 +31,14 @@ export function clearAll() {
 ontick(update, 60)
 ontick(draw, 30)
 
+export const edge = 200
+
 function update() {
   Matter.Engine.update(engine, 1000 / 60)
 
   for (const b of Matter.Composite.allBodies(engine.world)) {
     const pos = b.vertices[0]!
 
-    const edge = 200
     if (pos.x < -edge ||
       pos.y < -edge ||
       pos.x > canvas.width + edge ||

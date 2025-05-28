@@ -27,7 +27,7 @@ function addCircles(e: PointerEvent) {
     const size = Math.random() * (sizes.max - sizes.min) + sizes.min
     const circle = addCircle(e.clientX, e.clientY, size)
     Matter.Body.setVelocity(circle, { x: e.movementX / 10, y: e.movementY / 10 })
-    navigator.vibrate(1)
+    // navigator.vibrate(1)
   }
 }
 

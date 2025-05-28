@@ -28,20 +28,16 @@ function addCircles(e: PointerEvent) {
     const rand = Math.random()
 
     const size = rand * (sizes.max - sizes.min) + sizes.min
-    const circle = addCircle(e.clientX, e.clientY, size)
+    const { circle, color } = addCircle(e.clientX, e.clientY, size)
     Matter.Body.setVelocity(circle, { x: e.movementX / 10, y: e.movementY / 10 })
 
-    const note = randomElement(notes)
+    const i = Math.floor(color / 360 * notes.length)
+    const note = notes[i]!
     const octave = Math.floor((1 - rand) * 3 + 4)
     playNote(note, octave, .3, { type: 'sine' })
   }
 
   // navigator.vibrate(1)
-}
-
-function randomElement<A extends ArrayLike<any>, K extends Exclude<keyof A, keyof any[]>>(array: A): A[K] {
-  const i = Math.floor(Math.random() * array.length)
-  return array[i]!
 }
 
 canvas.onpointerdown = e => {

@@ -109,9 +109,10 @@ export function addCircle(x: number, y: number, size: number) {
   const circle = Matter.Bodies.circle(x + ox, y + oy, size * (18 / 20))
   Matter.Composite.add(engine.world, circle)
 
-  bubbles.set(circle, { color: Math.random() * 360, size })
+  const color = Math.random() * 360
+  bubbles.set(circle, { color, size })
 
-  return circle
+  return { color, circle }
 }
 
 function ontick(fn: (d: number) => void, fps: number) {

@@ -41,7 +41,7 @@ function addBubbles() {
 
   const size = Math.random() * (max - min) + min
 
-  const circle = addCircle(x, y, size)
+  const { circle } = addCircle(x, y, size)
   circle.frictionAir = 0
   Matter.Body.setVelocity(circle, { x: mx, y: my })
 }

@@ -37,4 +37,5 @@ export function playNote(note: typeof notes[number], octave: number, duration: n
   if (options?.type !== undefined) o.type = options?.type
   o.frequency.value = freqForNote(note, octave)
   o.start(0)
+  o.stop(audio.currentTime + duration)
 }

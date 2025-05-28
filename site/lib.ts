@@ -79,7 +79,7 @@ function draw() {
     ctx.fill()
 
     const grad2 = ctx.createRadialGradient(pos.x, pos.y, size, pos.x + .01, pos.y + .01 - 3, size / 2)
-    grad2.addColorStop(0, '#fff7')
+    grad2.addColorStop(0, col(.47))
     grad2.addColorStop(1, '#0000')
     ctx.fillStyle = grad2
     ctx.beginPath()
@@ -90,7 +90,7 @@ function draw() {
       0, Math.PI * 2)
     ctx.fill()
 
-    ctx.fillStyle = '#fffc'
+    ctx.fillStyle = `color-mix(in hsl, ${col(1)}, white 33%)`
     ctx.beginPath()
     ctx.ellipse(
       pos.x - (size / 2),

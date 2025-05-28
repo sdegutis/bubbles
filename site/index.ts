@@ -1,3 +1,4 @@
+import { audio, freqForNote, notes } from "./audio.js"
 import { addCircle, canvas, engine, Matter } from "./lib.js"
 
 engine.gravity.y = 0.15
@@ -34,7 +35,21 @@ function addCircles(e: PointerEvent) {
     const i = Math.floor(color / 360 * notes.length)
     const note = notes[i]!
     const octave = Math.floor((1 - rand) * 3 + 4)
-    playNote(note, octave, .1, { type: 'sine', volume: .25 })
+
+    const end = audio.currentTime + .1
+
+    const gain = new GainNode(audio, { gain: .025 })
+    gain.gain.exponentialRampToValueAtTime(0.0001, end)
+    gain.connect(audio.destination)
+
+    const osc = new OscillatorNode(audio, { type: 'sine', frequency: freqForNote(note, octave) })
+    osc.connect(gain)
+    osc.start(0)
+    osc.stop(end)
+    osc.onended = () => {
+      osc.disconnect()
+      gain.disconnect()
+    }
   }
 }
 
@@ -50,62 +65,4 @@ canvas.onpointerdown = e => {
   canvas.addEventListener('pointerup', (e) => {
     aborts.get(e.pointerId)!.abort()
   }, { once: true, })
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-const audio = new AudioContext()
-
-function freqFromA4(n: number) {
-  return 2 ** (n / 12) * 440
-}
-
-export const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'] as const
-
-function freqForNote(note: typeof notes[number], oct: number) {
-  const index = notes.indexOf(note) + (12 * oct)
-  return freqFromA4(-57 + index)
-}
-
-export function playNote(note: typeof notes[number], octave: number, duration: number, options?: {
-  type?: OscillatorType,
-  volume?: number,
-  delay?: number,
-}) {
-  const g = audio.createGain()
-  if (options?.volume !== undefined) g.gain.value = options.volume
-  g.connect(audio.destination)
-
-  g.gain.exponentialRampToValueAtTime(0.00001, audio.currentTime + duration)
-
-  let node: GainNode | DelayNode = g
-
-  if (options?.delay) {
-    node = new DelayNode(audio, {
-      delayTime: options.delay,
-      maxDelayTime: options.delay,
-    })
-  }
-
-  const o = audio.createOscillator()
-  o.connect(node)
-
-  if (options?.type !== undefined) o.type = options?.type
-  o.frequency.value = freqForNote(note, octave)
-  o.start(0)
-  o.stop(audio.currentTime + duration)
-  o.onended = () => {
-    o.disconnect()
-    g.disconnect()
-  }
 }

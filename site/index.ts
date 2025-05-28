@@ -25,16 +25,18 @@ function getSizeBounds() {
 
 function addCircles(e: PointerEvent) {
   for (let i = 0; i < 1 * e.pressure ** e.pressure; i++) {
-    const size = Math.random() * (sizes.max - sizes.min) + sizes.min
+    const rand = Math.random()
+
+    const size = rand * (sizes.max - sizes.min) + sizes.min
     const circle = addCircle(e.clientX, e.clientY, size)
     Matter.Body.setVelocity(circle, { x: e.movementX / 10, y: e.movementY / 10 })
+
+    const note = randomElement(notes)
+    const octave = Math.floor((1 - rand) * 3 + 4)
+    playNote(note, octave, .3, { type: 'sine' })
   }
 
   // navigator.vibrate(1)
-
-  const note = randomElement(notes)
-  const octave = Math.round(Math.random() * 3 + 2)
-  playNote(note, octave, .3, { type: 'sine' })
 }
 
 function randomElement<A extends ArrayLike<any>, K extends Exclude<keyof A, keyof any[]>>(array: A): A[K] {

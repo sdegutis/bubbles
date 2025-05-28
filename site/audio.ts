@@ -38,4 +38,8 @@ export function playNote(note: typeof notes[number], octave: number, duration: n
   o.frequency.value = freqForNote(note, octave)
   o.start(0)
   o.stop(audio.currentTime + duration)
+  o.onended = () => {
+    o.disconnect()
+    g.disconnect()
+  }
 }

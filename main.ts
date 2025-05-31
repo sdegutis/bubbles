@@ -1,6 +1,5 @@
-import { transformSync } from '@babel/core'
-import { DevServer, FileTree, generateFiles, Pipeline } from "immaculata"
-import { transformImportsPlugin } from "immaculata/babel.js"
+import { DevServer, FileTree, generateFiles, Pipeline, transformImports } from "immaculata"
+import ts from 'typescript'
 
 const site = new FileTree('site', import.meta.dirname)
 
@@ -25,25 +24,28 @@ function run() {
 
     const mapPath = f.path + '.map'
     const sourceMapPart = '\n//# sourceMappingURL=' + mapPath
-    f.text = result.code! + sourceMapPart
+    f.text = result.outputText! + sourceMapPart
 
-    files.add(mapPath, JSON.stringify(result.map))
+    files.add(mapPath, JSON.stringify(result.sourceMapText!))
   })
 
   return files.results()
 }
 
 function transform(text: string, path: string) {
-  return transformSync(text, {
-    sourceMaps: true,
-    filename: path,
-    plugins: [
-      ['@babel/plugin-transform-typescript', { isTSX: true }],
-      ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }],
-      transformImportsPlugin(import.meta.dirname, {
+  return ts.transpileModule(text, {
+    fileName: path,
+    compilerOptions: {
+      module: ts.ModuleKind.ESNext,
+      target: ts.ScriptTarget.ESNext,
+      jsx: ts.JsxEmit.ReactJSX,
+      sourceMap: true,
+    },
+    transformers: {
+      after: [transformImports(import.meta.dirname, {
         'matter-js': 'https://cdn.jsdelivr.net/npm/matter-js@0.20.0/+esm',
         'react/jsx-runtime': '/jsx.js',
-      }),
-    ],
+      })]
+    }
   })
 }

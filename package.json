@@ -15,7 +15,8 @@
     "@babel/plugin-transform-react-jsx": "^7.27.1",
     "@babel/plugin-transform-typescript": "^7.27.1",
     "immaculata": "^2.4.0",
-    "matter-js": "^0.20.0"
+    "matter-js": "^0.20.0",
+    "ref.api.90s.dev": "github:sdegutis/ref.api.90s.dev"
   },
   "devDependencies": {
     "@types/matter-js": "^0.19.8",

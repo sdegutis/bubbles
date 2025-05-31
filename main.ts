@@ -19,9 +19,9 @@ else {
 function run() {
   const files = Pipeline.from(site.files)
 
-  files.with(/\.ts$/).do(f => {
+  files.with(/\.tsx?$/).do(f => {
     const result = transform(f.text, f.path)!
-    f.path = f.path.replace(/\.ts$/, '.js')
+    f.path = f.path.replace(/\.tsx?$/, '.js')
 
     const mapPath = f.path + '.map'
     const sourceMapPart = '\n//# sourceMappingURL=' + mapPath
@@ -41,7 +41,8 @@ function transform(text: string, path: string) {
       ['@babel/plugin-transform-typescript', { isTSX: true }],
       ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }],
       transformImportsPlugin(import.meta.dirname, {
-        'matter-js': 'https://cdn.jsdelivr.net/npm/matter-js@0.20.0/+esm'
+        'matter-js': 'https://cdn.jsdelivr.net/npm/matter-js@0.20.0/+esm',
+        'react/jsx-runtime': '/jsx.js',
       }),
     ],
   })

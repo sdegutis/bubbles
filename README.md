@@ -6,20 +6,20 @@ https://github.com/user-attachments/assets/86daae64-4b48-4d8a-966f-4d9dc12e0497
 
 ## Demo
 
-https://bubbles.90s.dev/ssaver.html
+https://sdegutis.github.io/bubbles/ssaver.html
 
 * The demo has a very short delay (`1s`)
 
 ## Usage
 
 ```html
-<script src="https://bubbles.90s.dev/ssaver.js" type="module"></script>
+<script src="https://sdegutis.github.io/bubbles/ssaver.js" type="module"></script>
 ```
 
 Or with parameters:
 
 ```html
-<script src="https://bubbles.90s.dev/ssaver.js?delay=1&speed=7" type="module"></script>
+<script src="https://sdegutis.github.io/bubbles/ssaver.js?delay=1&speed=7" type="module"></script>
 ```
 
 ## Parameters
